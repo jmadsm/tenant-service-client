@@ -1,27 +1,8 @@
 # JMA Tenant Service Client
 
 ## Install package
-In your ```composer.json``` add this repository.
-Example ```composer.json```
-```json
-{
-    "name": "test/test",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/jmadsm/tenant-service-client"
-        }
-    ],
-    "require": {
-        ...
-    }
-    ...
-}
-```
-
-Once the repository has been added, you can install the package by running:
 ```shell
-composer require jmadsm/tenant-service-client:dev-main
+composer require jmadsm/tenant-service-client
 ```
 
 ## Example

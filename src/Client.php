@@ -24,7 +24,7 @@ class Client {
     }
 
     /**
-     * Search for a tenant by tenant parametes
+     * Search for a tenant application
      *
      * @param array $searchParams   Allowed search parameters are:
      * [
@@ -35,13 +35,13 @@ class Client {
      */
     public function get(array $searchParams = [])
     {
-        $response = $this->guzzleClient->get('api/tenant?' . http_build_query($searchParams));
+        $response = $this->guzzleClient->get('api/tenants?' . http_build_query($searchParams));
 
         return json_decode($response->getBody(), true)['data'] ?? [];
     }
 
     /**
-     * Get tenant data by id
+     * Get tenant data by Tenant Application id
      *
      * @param integer $id
      * @return array        Tenant array
@@ -54,7 +54,7 @@ class Client {
     }
 
     /**
-     * Get tenant data by api company id
+     * Get tenant application by api company id
      *
      * @param string $apiCompanyId
      * @return array                Tenant array

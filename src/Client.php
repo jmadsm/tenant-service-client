@@ -24,45 +24,28 @@ class Client {
     }
 
     /**
-     * Search for a tenant application
+     * Get a tenant application by tenant application token
      *
-     * @param array $searchParams   Allowed search parameters are:
-     * [
-     *   'id', 'name', 'subdomain', 'cname_domain', 'api_company_id'
-     *   'api_base_url', 'api_user', 'api_tenant', 'api_rest_version'
-     * ]
-     * @return array                Array of tenants
+     * @param   string  $token  tenant application token
+     * @return  array   $tenant
      */
-    public function get(array $searchParams = [])
+    public function get(string $token): array
     {
-        $response = $this->guzzleClient->get('api/tenants?' . http_build_query($searchParams));
+        $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_token' => $token]));
 
-        return json_decode($response->getBody(), true)['data'] ?? [];
+        return json_decode($response->getBody(), true);
     }
 
     /**
-     * Get tenant data by Tenant Application id
+     * Get a tenant application by tenant application id
      *
-     * @param integer $id
-     * @return array        Tenant array
+     * @param   integer $id     tenant application id
+     * @return  array   $tenant
      */
     public function getById(int $id): array
     {
-        $tenant = $this->get(['id' => $id]);
+        $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_id' => $id]));
 
-        return count($tenant) === 1 ? $tenant[0] : null;
-    }
-
-    /**
-     * Get tenant application by api company id
-     *
-     * @param string $apiCompanyId
-     * @return array                Tenant array
-     */
-    public function getByApiCompanyId(string $apiCompanyId): array
-    {
-        $tenant = $this->get(['api_company_id' => $apiCompanyId]);
-
-        return count($tenant) === 1 ? $tenant[0] : null;
+        return json_decode($response->getBody(), true);
     }
 }

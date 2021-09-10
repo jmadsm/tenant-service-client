@@ -18,7 +18,7 @@ class TenantServiceProvider extends \Illuminate\Support\ServiceProvider
         ], 'tenant-config');
 
         $this->app->singleton(TenantServiceClient::class, function() {
-            return new TenantServiceClient(config('services.tenant-service.endpoint'), config('services.tenant-service.token'));
+            return new TenantServiceClient(config('tenant.endpoint'), config('tenant.token'));
         });
     }
 

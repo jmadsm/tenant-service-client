@@ -1,6 +1,6 @@
 {
     "name": "jmadsm/tenant-service-client",
-    "version": "1.2.5",
+    "version": "1.2.6",
     "description": "Tenant service client",
     "type": "library",
     "authors": [

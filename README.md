@@ -1,8 +1,13 @@
 # JMA Tenant Service Client
 
 ## Install package
-```shell
+```console
 composer require jmadsm/tenant-service-client
+```
+
+## Laravel
+```console
+php artisan vendor:publish --tag=tag=tenant-config --ansi
 ```
 
 ## Example

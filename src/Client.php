@@ -6,6 +6,7 @@ use GuzzleHttp\Client as GuzzleClient;
 
 class Client {
     protected $guzzleClient;
+    public $tenantId, $token;
 
     /**
      * Constructs a new TenantServiceClient
@@ -29,9 +30,11 @@ class Client {
      * @param   string  $token  tenant application token
      * @return  array   $tenant
      */
-    public function get(string $token): array
+    public function get(string $token = null): array
     {
-        $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_token' => $token]));
+        if ($token) $this->token = $token;
+
+        $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_token' => $this->token]));
 
         return json_decode($response->getBody(), true);
     }
@@ -42,9 +45,11 @@ class Client {
      * @param   integer $id     tenant application id
      * @return  array   $tenant
      */
-    public function getById(int $id): array
+    public function getById(int $id = null): array
     {
-        $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_id' => $id]));
+        if ($id) $this->tenantId = $id;
+
+        $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_id' => $this->tenantId]));
 
         return json_decode($response->getBody(), true);
     }

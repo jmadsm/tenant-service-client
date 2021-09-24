@@ -53,4 +53,16 @@ class Client {
 
         return json_decode($response->getBody(), true);
     }
+
+    /**
+     * Get a list of tenant applications
+     *
+     * @return array $tenant
+     */
+    public function getBySearch(): array
+    {
+        $response = $this->guzzleClient->get('search');
+
+        return json_decode($response->getBody(), true);
+    }
 }

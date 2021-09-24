@@ -59,7 +59,7 @@ class Client {
      *
      * @return array $tenant
      */
-    public function getBySearch(): array
+    public function search(): array
     {
         $response = $this->guzzleClient->get('search');
 

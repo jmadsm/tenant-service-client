@@ -56,13 +56,16 @@ class Client {
 
     /**
      * Get a list of tenant applications
-     *
+     * 
+     * @param  string $searchKeyWord  Any key in the Tenant table
+     * @param  string $searchWord     The phrase to search for
      * @return array $tenant
      */
-    public function search(): array
+    public function search($searchKeyWord = null, $searchWord = null): array
     {
-        $response = $this->guzzleClient->get('search');
+        $query = $searchKeyWord ? 'search?' . http_build_query([$searchKeyWord => (string) $searchWord]) : 'search';
+        $response = $this->guzzleClient->get($query);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody(), true);        
     }
 }

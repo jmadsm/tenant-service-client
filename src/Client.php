@@ -61,7 +61,7 @@ class Client {
      * @param  string $searchWord     The phrase to search for
      * @return array $tenant
      */
-    public function search($searchKeyWord = null, $searchWord = null): array
+    public function search(string $searchKeyWord = null, string $searchWord = null): array
     {
         $query = $searchKeyWord ? 'search?' . http_build_query([$searchKeyWord => (string) $searchWord]) : 'search';
         $response = $this->guzzleClient->get($query);

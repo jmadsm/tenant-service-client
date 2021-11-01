@@ -7,7 +7,7 @@ composer require jmadsm/tenant-service-client
 
 ## Laravel
 ```console
-php artisan vendor:publish --tag=tag=tenant-config --ansi
+php artisan vendor:publish --tag=tenant-config --ansi
 ```
 
 ### Get tenant token with Laravel

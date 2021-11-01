@@ -6,7 +6,7 @@ use GuzzleHttp\Client as GuzzleClient;
 
 class Client {
     protected $guzzleClient;
-    public $tenantId, $token;
+    public $tenantId, $token, $domain;
 
     /**
      * Constructs a new TenantServiceClient
@@ -55,8 +55,23 @@ class Client {
     }
 
     /**
+     * Get a tenant application by tenant application id
+     *
+     * @param   integer $id     tenant application id
+     * @return  array   $tenant
+     */
+    public function getByDomain(string $domain = null): array
+    {
+        if ($domain) $this->domain = $domain;
+
+        $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_domain' => $this->domain]));
+
+        return json_decode($response->getBody(), true);
+    }
+
+    /**
      * Get a list of tenant applications
-     * 
+     *
      * @param  string $searchKeyWord  Any key in the Tenant table
      * @param  string $searchWord     The phrase to search for
      * @return array $tenant
@@ -66,6 +81,6 @@ class Client {
         $query = $searchKeyWord ? 'search?' . http_build_query([$searchKeyWord => (string) $searchWord]) : 'search';
         $response = $this->guzzleClient->get($query);
 
-        return json_decode($response->getBody(), true);        
+        return json_decode($response->getBody(), true);
     }
 }

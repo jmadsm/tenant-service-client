@@ -4,9 +4,19 @@ namespace JmaDsm\TenantService;
 
 use GuzzleHttp\Client as GuzzleClient;
 
-class Client {
+class Client
+{
     protected $guzzleClient;
-    public $tenantId, $token, $domain;
+    public $tenantId;
+    public $token;
+    public $domain;
+
+    /**
+     * Array of last received tenant
+     *
+     * @var array
+     */
+    public array $lastReceivedTenant;
 
     /**
      * Constructs a new TenantServiceClient
@@ -18,7 +28,7 @@ class Client {
     {
         $this->guzzleClient = new GuzzleClient([
             'base_uri' => $endpoint,
-            'headers' => [
+            'headers'  => [
                 'Authorization' => 'Bearer ' . $apiToken
             ]
         ]);
@@ -27,58 +37,73 @@ class Client {
     /**
      * Get a tenant application by tenant application token
      *
-     * @param   string  $token  tenant application token
-     * @return  array   $tenant
+     * @param  string $token tenant application token
+     * @return array  $tenant
      */
     public function get(string $token = null): array
     {
-        if ($token) $this->token = $token;
+        if ($token) {
+            $this->token = $token;
+        }
 
         $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_token' => $this->token]));
 
-        return json_decode($response->getBody(), true);
+        $tenant                   = json_decode($response->getBody(), true);
+        $this->lastReceivedTenant = $tenant;
+
+        return $tenant;
     }
 
     /**
      * Get a tenant application by tenant application id
      *
-     * @param   integer $id     tenant application id
-     * @return  array   $tenant
+     * @param  integer $id tenant application id
+     * @return array   $tenant
      */
     public function getById(int $id = null): array
     {
-        if ($id) $this->tenantId = $id;
+        if ($id) {
+            $this->tenantId = $id;
+        }
 
         $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_id' => $this->tenantId]));
 
-        return json_decode($response->getBody(), true);
+        $tenant                   = json_decode($response->getBody(), true);
+        $this->lastReceivedTenant = $tenant;
+
+        return $tenant;
     }
 
     /**
      * Get a tenant application by tenant application id
      *
-     * @param   integer $id     tenant application id
-     * @return  array   $tenant
+     * @param  integer $id tenant application id
+     * @return array   $tenant
      */
     public function getByDomain(string $domain = null): array
     {
-        if ($domain) $this->domain = $domain;
+        if ($domain) {
+            $this->domain = $domain;
+        }
 
         $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_domain' => $this->domain]));
 
-        return json_decode($response->getBody(), true);
+        $tenant                   = json_decode($response->getBody(), true);
+        $this->lastReceivedTenant = $tenant;
+
+        return $tenant;
     }
 
     /**
      * Get a list of tenant applications
      *
-     * @param  string $searchKeyWord  Any key in the Tenant table
-     * @param  string $searchWord     The phrase to search for
-     * @return array $tenant
+     * @param  string $searchKeyWord Any key in the Tenant table
+     * @param  string $searchWord    The phrase to search for
+     * @return array  $tenant
      */
     public function search(string $searchKeyWord = null, string $searchWord = null): array
     {
-        $query = $searchKeyWord ? 'search?' . http_build_query([$searchKeyWord => (string) $searchWord]) : 'search';
+        $query    = $searchKeyWord ? 'search?' . http_build_query([$searchKeyWord => (string) $searchWord]) : 'search';
         $response = $this->guzzleClient->get($query);
 
         return json_decode($response->getBody(), true);

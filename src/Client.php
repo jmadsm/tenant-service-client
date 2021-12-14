@@ -40,13 +40,21 @@ class Client
      * @param  string $token tenant application token
      * @return array  $tenant
      */
-    public function get(string $token = null): array
+    public function get(string $token = null): array|null
     {
         if ($token) {
             $this->token = $token;
         }
 
-        $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_token' => $this->token]));
+        try {
+            $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_token' => $this->token]));
+        } catch (\GuzzleHttp\Exception\ClientException $th) {
+            if ($th->getResponse()->getStatusCode() === 404) {
+                return null;
+            } else {
+                throw $th;
+            }
+        }
 
         $tenant                   = json_decode($response->getBody(), true);
         $this->lastReceivedTenant = $tenant;
@@ -60,13 +68,21 @@ class Client
      * @param  integer $id tenant application id
      * @return array   $tenant
      */
-    public function getById(int $id = null): array
+    public function getById(int $id = null): array|null
     {
         if ($id) {
             $this->tenantId = $id;
         }
 
-        $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_id' => $this->tenantId]));
+        try {
+            $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_id' => $this->tenantId]));
+        } catch (\GuzzleHttp\Exception\ClientException $th) {
+            if ($th->getResponse()->getStatusCode() === 404) {
+                return null;
+            } else {
+                throw $th;
+            }
+        }
 
         $tenant                   = json_decode($response->getBody(), true);
         $this->lastReceivedTenant = $tenant;
@@ -80,13 +96,21 @@ class Client
      * @param  integer $id tenant application id
      * @return array   $tenant
      */
-    public function getByDomain(string $domain = null): array
+    public function getByDomain(string $domain = null): array|null
     {
         if ($domain) {
             $this->domain = $domain;
         }
 
-        $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_domain' => $this->domain]));
+        try {
+            $response = $this->guzzleClient->get('tenants?' . http_build_query(['tenant_domain' => $this->domain]));
+        } catch (\GuzzleHttp\Exception\ClientException $th) {
+            if ($th->getResponse()->getStatusCode() === 404) {
+                return null;
+            } else {
+                throw $th;
+            }
+        }
 
         $tenant                   = json_decode($response->getBody(), true);
         $this->lastReceivedTenant = $tenant;

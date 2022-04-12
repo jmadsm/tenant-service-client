@@ -68,7 +68,7 @@ class Client
      * @param  integer $id tenant application id
      * @return array   $tenant
      */
-    public function getById(int $id = null): array|null
+    public function getById(int $id = null)
     {
         if ($id) {
             $this->tenantId = $id;
@@ -96,7 +96,7 @@ class Client
      * @param  integer $id tenant application id
      * @return array   $tenant
      */
-    public function getByDomain(string $domain = null): array|null
+    public function getByDomain(string $domain = null)
     {
         if ($domain) {
             $this->domain = $domain;

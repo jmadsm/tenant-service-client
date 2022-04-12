@@ -40,7 +40,7 @@ class Client
      * @param  string $token tenant application token
      * @return array  $tenant
      */
-    public function get(string $token = null): array|null
+    public function get(string $token = null)
     {
         if ($token) {
             $this->token = $token;

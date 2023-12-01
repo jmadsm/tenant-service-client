@@ -1,6 +1,6 @@
 {
     "name": "jmadsm/tenant-service-client",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "description": "Tenant service client",
     "type": "library",
     "authors": [
@@ -11,7 +11,7 @@
     ],
     "require": {
         "guzzlehttp/guzzle": "^7.0",
-        "illuminate/support": "^9.0"
+        "illuminate/support": "^10.0"
     },
     "autoload": {
         "psr-4": {
